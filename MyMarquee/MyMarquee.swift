@@ -40,7 +40,11 @@ class MyMarquee: UIView, UIScrollViewDelegate{
     var contentAttribute: ContentViewAttribute = ContentViewAttribute()
     
     var timer: Timer?
-    var timeInterval:Double = 3
+    var timeInterval:Double = 3 {
+        didSet{
+            if timeInterval <= 1 { timeInterval = 1 }
+        }
+    }
     var content: [String] = []
     var index = 1
     var imageViewWidth:Double = 40
@@ -141,6 +145,12 @@ class MyMarquee: UIView, UIScrollViewDelegate{
             timer?.invalidate()
         }
         timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(autoScroll), userInfo: nil, repeats: true)
+    }
+    
+    func stopTimer(){
+        if self.timer != nil {
+             self.timer?.invalidate()
+        }
     }
     
     @objc func autoScroll(){
